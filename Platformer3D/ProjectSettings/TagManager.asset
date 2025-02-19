@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wood
   - VatCan
+  - Coin
   layers:
   - Default
   - TransparentFX

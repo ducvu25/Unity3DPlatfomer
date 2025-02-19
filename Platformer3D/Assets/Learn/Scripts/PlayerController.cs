@@ -98,6 +98,8 @@ public class PlayerController : MonoBehaviour
         if (collision.transform.CompareTag("VatCan"))
         {
             SetState(3);
+            ManagerController.instance.InitAudioFx(2);
+            Invoke("Die", 2);
         }
         else
         {
@@ -105,6 +107,22 @@ public class PlayerController : MonoBehaviour
             _numberJump = numberJump;
             SetState(0);
         }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("Finish"))
+        {
+            state = 3;
+            ManagerController.instance.EndGame(true);
+        }else if (other.transform.CompareTag("Coin"))
+        {
+            Destroy(other.gameObject);
+            ManagerController.instance.AddCoin(1);
+        }
+    }
+    void Die()
+    {
+        ManagerController.instance.AddDame();
     }
     private void OnCollisionExit(Collision collision) {
         if (state == 3) return;
@@ -117,5 +135,9 @@ public class PlayerController : MonoBehaviour
         animator.SetBool(nameState[state], false);
         state = s;
         animator.SetBool(nameState[state], true);
+    }
+    public void ResetState()
+    {
+        SetState(0);
     }
 }
